@@ -14,11 +14,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    
     /**
      * Show the application dashboard.
      *
@@ -27,8 +23,6 @@ class HomeController extends Controller
     
     public function index()
     {
-        $previlege =  Auth::user()->previlege;
-        if($previlege == 0) return redirect('/basicUser');
-        else if($previlege == 1) return redirect('/');
+         return view('index.home');
     }
 }

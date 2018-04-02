@@ -28,9 +28,9 @@ class VerifyEmail extends Mailable
         // generate link
         $encryptedEmail = Crypt::encrypt($this->user->email);
         // ex: domain.com/verify?token=xxxx
-        $link = route('eo.verify', ['token' => $encryptedEmail]);
+        $link = route('studioMusik.verify', ['token' => $encryptedEmail]);
         return $this->subject('Verify Your Email Address')
             ->with('link', $link)
-            ->view('eo.verifyemail');
+            ->view('studio.verifyemail');
     }
 }

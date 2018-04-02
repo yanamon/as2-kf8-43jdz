@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
+use App\StudioMusik;
+use App\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        //defining our middleware for this controller
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        return view("admin.home");
     }
 
     /**
@@ -22,9 +29,36 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function unconfirmedStudio()
+    {
+        $users = User::with('StudioMusik')->where('previlege', 1)->orderBy('confirmed')->orderBy('updated_at','DESC')->get();
+        return view("admin.unconfirmed-studio",compact('users'));
+    }
+
+    public function confirmStudio(Request $request){
+        $user = User::find($request->id);
+        $user->confirmed = 1;
+        $user->save();
+        return redirect()->back();
+    }
+
+    public function unconfirmStudio(Request $request){
+        $user = User::find($request->id);
+        $user->confirmed = 0;
+        $user->save();
+        return redirect()->back();
+    }
+
+    public function detailStudio($id)
+    {
+        $user = User::with('StudioMusik')->find($id);
+        return view("admin.detail-studio", compact('user'));
+    }
+
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -41,10 +75,10 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Admin  $admin
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Admin $admin)
+    public function show($id)
     {
         //
     }
@@ -52,10 +86,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Admin  $admin
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Admin $admin)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +98,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Admin  $admin
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +109,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Admin  $admin
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy($id)
     {
         //
     }

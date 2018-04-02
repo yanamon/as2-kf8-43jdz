@@ -28,11 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function basicUser(){
-        return $this->hasOne('App\BasicUser');
+    public function Penyewa(){
+        return $this->hasOne('App\Penyewa');
     }
     
-    public function EO(){
-        return $this->hasOne('App\EO');
+    public function studioMusik(){
+        return $this->hasOne('App\StudioMusik', 'id_user');
     }
 }

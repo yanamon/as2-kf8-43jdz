@@ -17,10 +17,22 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            $previlege =  Auth::user()->previlege;
-            if($previlege == 0) return redirect('/basicUser');
-            else if($previlege == 1) return redirect('/');
+        
+        switch ($guard) {
+            case 'admin':
+                if (Auth::guard($guard)->check()) {
+                    return redirect()->route('admin.index');
+                }
+                break;
+            default:
+                if (Auth::guard($guard)->check()) {
+                    if (Auth::guard($guard)->check()) {
+                        $previlege =  Auth::user()->previlege;
+                        if($previlege == 0) return redirect('/');
+                        else if($previlege == 1) return redirect('/studioMusik');
+                    }
+                }
+                break;
         }
 
         return $next($request);

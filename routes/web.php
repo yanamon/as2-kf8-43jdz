@@ -10,24 +10,31 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'EventController@index');
-
-Route::get('/loginregis', function () {
-    return view('loginregis');
-});
-
-Route::resource('admin', 'AdminController');
-Route::resource('category', 'CategoryController');
-Route::resource('eo', 'EOController');
-Route::resource('event', 'EventController');
-Route::resource('eventImage', 'EventImageController');
-Route::resource('savedEvent', 'SavedEventController');
-Route::resource('ticket', 'TicketController');
-Route::resource('basicUser', 'BasicUserController');
-
 Auth::routes();
+Route::resource('booking', 'BookingController');
+Route::resource('gallery', 'GalleryController');
+Route::resource('penyewa', 'PenyewaController');
+Route::resource('savedStudio', 'SavedStudioController');
+Route::resource('studio', 'StudioController');
+Route::resource('studioMusik', 'StudioMusikController');
+Route::resource('admin', 'AdminController');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('verify', 'StudioMusikController@verify')->name('studioMusik.verify');
+Route::post('resendVerifikasi', 'StudioMusikController@resendVerifikasi')->name('studioMusik.resendVerifikasi');
 
-Route::get('verify', 'EOController@verify')->name('eo.verify');
+//Route::get('protected', ['middleware' => ['auth', 'admin'], function() {
+//    return view("admin.home");
+//}]);
+
+
+
+Route::get('/adminlogin', 'Auth\AdminLoginController@loginform')->name('admin.loginform');
+Route::post('/adminlogin', 'Auth\AdminLoginController@login')->name('admin.login');
+Route::post('/adminlogout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+
+
+Route::get('/unconfirmedStudio', 'AdminController@unconfirmedStudio')->name('admin.unconfirmedStudio');
+Route::post('/unconfirmStudio', 'AdminController@unconfirmStudio')->name('admin.unconfirmStudio');
+Route::post('/confirmStudio', 'AdminController@confirmStudio')->name('admin.confirmStudio');
+Route::get('/detailStudio/{id}', 'AdminController@detailStudio')->name('admin.detailStudio');

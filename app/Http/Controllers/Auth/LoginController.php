@@ -26,19 +26,20 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
     protected function authenticated()
     {
         $previlege =  Auth::user()->previlege;
-        if($previlege == 0) return redirect('/basicUser');
-        else if($previlege == 1) return redirect('/');
-        //else error
+        if($previlege == 0) return redirect('/');
+        else if($previlege == 1) return redirect('/studioMusik');
+        else return redirect()->back();
     }
 
     public function __construct()
